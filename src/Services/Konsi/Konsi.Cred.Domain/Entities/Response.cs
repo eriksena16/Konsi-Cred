@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace KonsiCred.Domain.Entities
+namespace KonsiCred.Domain
 {
     public class Response<T>
     {

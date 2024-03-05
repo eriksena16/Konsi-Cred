@@ -1,4 +1,4 @@
-﻿using KonsiCred.Domain.Entities;
+﻿using KonsiCred.Domain;
 
 namespace KonsiCred.Facade
 {

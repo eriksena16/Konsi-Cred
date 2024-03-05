@@ -1,0 +1,65 @@
+﻿@page "/"
+@using KonsiCred.Application
+
+<PageTitle>pageTitle</PageTitle>
+
+<FluentGrid Spacing="3" Justify="JustifyContent.Center" Style="margin-top:50px">
+    <FluentGridItem>
+        <FluentCard>
+            <img src="img/logo-konsi.webp" style="width: 50%; height: auto;" />
+            <FluentLabel Alignment="HorizontalAlignment.Center">
+                @pageTitle
+            </FluentLabel>
+
+            <EditForm Model="Cliente" method="post" FormName="consulta" OnValidSubmit="@ConsultarBeneficio">
+                <DataAnnotationsValidator />
+                <hr />
+                <FluentTextField Appearance="FluentInputAppearance.Filled"
+                                 Label="Informe o CPF" @bind-Value="Cliente!.Cpf"
+                                 Style="width:100%; margin-bottom: 10px" />
+                <ValidationMessage For="() => Cliente!.Cpf" class="text-danger" />
+
+                <FluentButton Type="ButtonType.Submit" Appearance="Appearance.Accent">
+                    Consultar
+                </FluentButton>
+
+            </EditForm>
+
+        </FluentCard>
+    </FluentGridItem>
+</FluentGrid>
+
+@if (visible)
+{
+    <FluentGrid Spacing="3" Justify="JustifyContent.Center" Style="margin-top:50px; padding: 0 100px;">
+        <FluentCard>
+
+            <FluentStack>
+                <FluentLabel>
+                    Informacoes
+                </FluentLabel>
+            </FluentStack>
+
+        </FluentCard>
+    </FluentGrid>
+
+}
+
+@code {
+    private string pageTitle => "Consulta Beneficio";
+    [SupplyParameterFromForm]
+    public ClienteDTQ Cliente { get; set; } = new ClienteDTQ();
+    private bool visible;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        await base.OnInitializedAsync();
+    }
+    private async Task<bool> ConsultarBeneficio()
+    {
+        visible = true;
+
+        return await Task.FromResult(true);
+    }
+}

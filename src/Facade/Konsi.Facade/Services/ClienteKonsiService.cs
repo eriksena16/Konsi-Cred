@@ -1,4 +1,4 @@
-﻿using KonsiCred.Domain.Entities;
+﻿using KonsiCred.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;

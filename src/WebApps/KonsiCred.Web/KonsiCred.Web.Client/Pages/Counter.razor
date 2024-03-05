@@ -1,5 +1,8 @@
 ﻿@page "/counter"
-@rendermode InteractiveServer
+@using System.Text.Json
+@using System.Text.Json.Serialization
+
+@rendermode InteractiveAuto
 
 <PageTitle>Counter</PageTitle>
 
@@ -7,7 +10,7 @@
 
 <p role="status">Current count: <FluentBadge Appearance="Appearance.Neutral">@currentCount</FluentBadge></p>
 
-<FluentButton Appearance="Appearance.Accent" @onclick="IncrementCount">Click me</FluentButton>
+<FluentButton Appearance="Appearance.Accent" @onclick="IncrementCount">Click me</FluentButton> 
 
 @code {
     private int currentCount = 0;
@@ -17,3 +20,4 @@
         currentCount++;
     }
 }
+
