@@ -1,1 +1,1 @@
-﻿public record ClienteDTO(string Cpf, List<Beneficio> Beneficios);
+﻿public record ClienteDTO(string Cpf, List<BeneficioDTO> Beneficios);

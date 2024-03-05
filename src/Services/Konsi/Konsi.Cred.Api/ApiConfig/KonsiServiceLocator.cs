@@ -9,7 +9,9 @@ namespace KonsiCred.Api.IoC
         {
             #region Services
             services.AddScoped<IUsuarioKonsiFacade, UsuarioKonsiService>();
+            services.AddScoped<IClienteKonsiFacade, ClienteKonsiService>();
             services.AddScoped<INotifier, Notifier>();
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             //services.AddScoped<IDepartamentoService, DepartamentoService>();

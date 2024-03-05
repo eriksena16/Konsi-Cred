@@ -7,6 +7,7 @@ builder
     .AddApiConfig()
     .AddCorsConfig()
     .AddSwaggerConfig()
+    //.AddIdentityConfig()
     .AddVersioningConfig();
 
 var app = builder.Build();
@@ -23,6 +24,7 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

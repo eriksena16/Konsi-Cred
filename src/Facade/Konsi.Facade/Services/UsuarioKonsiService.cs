@@ -1,7 +1,6 @@
 ﻿using KonsiCred.Application;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System.Dynamic;
 using System.Net.Http.Json;
 using System.Text;
 
@@ -21,7 +20,7 @@ namespace KonsiCred.Facade
 
         }
 
-        public async Task<BearerToken> LoginAsync(LoginUserDTO user)
+        public async Task<BearerToken> LoginAsync(LoginUser user)
         {
             var requestContent = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 

@@ -10,10 +10,11 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.1" />
     <PackageReference Include="Microsoft.JSInterop" Version="8.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Services\Konsi\Konsi.Cred.Application\KonsiCred.Application.csproj" />
+    <ProjectReference Include="..\..\Services\Konsi\Konsi.Cred.Domain\KonsiCred.Domain.csproj" />
   </ItemGroup>
 
 </Project>

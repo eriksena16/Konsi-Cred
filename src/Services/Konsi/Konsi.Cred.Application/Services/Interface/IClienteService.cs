@@ -2,6 +2,6 @@
 {
     public interface IClienteService
     {
-        Task<ClienteDTO> BuscarPorCpf(string cpf);
+        Task<ClienteDTO> BuscarPorCpf(long cpf);
     }
 }

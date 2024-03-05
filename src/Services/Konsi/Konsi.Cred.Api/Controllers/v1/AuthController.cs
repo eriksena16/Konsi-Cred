@@ -19,7 +19,7 @@ namespace Patrimony.Api.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginUserDTO loginUser)
+        public async Task<IActionResult> Login(LoginUser loginUser)
         {
             if (!ModelState.IsValid) return ValidationProblem(ModelState);
 

@@ -1,18 +1,34 @@
 ﻿using KonsiCred.Core;
+using KonsiCred.Facade;
 
 namespace KonsiCred.Application.Services
 {
     public class ClienteService : ServiceBase, IClienteService
     {
-        
-        public ClienteService(INotifier notifier) : base(notifier)
+        private readonly IClienteKonsiFacade _clienteKonsi;
+        public ClienteService(INotifier notifier, IClienteKonsiFacade clienteKonsi) : base(notifier)
         {
-         
+            _clienteKonsi = clienteKonsi;
         }
 
-        public Task<ClienteDTO> BuscarPorCpf(string cpf)
+        public async Task<ClienteDTO> BuscarPorCpf(long cpf)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var response = await _clienteKonsi.ObterPorCpf(cpf);
+
+                if (!response.Success)
+                    Notificar(response.Observations);
+
+                var clienteDto = AutoMapperCliente.ParaClienteDTO(response.Data);
+            
+                return clienteDto;
+            }
+            catch (Exception ex)
+            {
+
+                throw new ArgumentException(ex.Message);
+            }
         }
 
 
