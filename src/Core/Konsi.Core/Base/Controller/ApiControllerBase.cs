@@ -1,27 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Konsi.Core
+namespace KonsiCred.Core
 {
     [ApiController]
     public class ApiControllerBase : ControllerBase
     {
         private readonly INotifier _notifier;
         public readonly IUsuario _appUser;
-        protected long ContaId { get; set; }
-        protected string UserId { get; set; }
         protected bool AuthenticatedUser { get; set; }
-        public ApiControllerBase(INotifier notifier,
-                              IUsuario appUser)
+        public ApiControllerBase(INotifier notifier)
         {
             _notifier = notifier;
-            _appUser = appUser;
-
-            if (appUser.IsAuthenticated())
-            {
-                UserId = appUser.GetUserId();
-                ContaId = appUser.GetAccountId();
-            }
         }
         protected bool ValidOperation()
         {

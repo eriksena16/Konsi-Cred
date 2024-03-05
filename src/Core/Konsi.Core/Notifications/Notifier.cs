@@ -1,4 +1,4 @@
-﻿namespace Konsi.Core
+﻿namespace KonsiCred.Core
 {
     public class Notifier : INotifier
     {

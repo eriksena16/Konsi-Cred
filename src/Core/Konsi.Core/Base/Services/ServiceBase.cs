@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 
-namespace Konsi.Core
+namespace KonsiCred.Core
 {
     public abstract class ServiceBase
     {
