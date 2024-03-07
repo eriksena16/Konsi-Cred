@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Konsi.Core\KonsiCred.Core.csproj" />
     <ProjectReference Include="..\..\Services\Konsi\Konsi.Cred.Domain\KonsiCred.Domain.csproj" />
   </ItemGroup>
 
