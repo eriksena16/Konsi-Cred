@@ -30,4 +30,4 @@ app.MapControllers();
 
 app.UseRabbitMq();
 
-    app.Run();
+app.Run();

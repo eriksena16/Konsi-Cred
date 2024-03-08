@@ -3,23 +3,20 @@ using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
+using System.Threading.Channels;
 
 namespace KonsiCred.Application
 {
     public class ConsumerService : BackgroundService
     {
-        private  IServiceProvider _serviceProvider;
+        private readonly IServiceProvider _serviceProvider;
         private readonly IModel _channel;
-        private readonly IConnection _connection;
+        private IConnection _connection;
         public ConsumerService(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
 
-            var factory = new ConnectionFactory
-            {
-                HostName = "localhost",
-            };
-            _connection = factory.CreateConnection();
+            InitializeRabbitMQConnection(serviceProvider);
             _channel = _connection.CreateModel();
 
             _channel.QueueDeclare(queue: "cpf-queue", durable: false, exclusive: false, autoDelete: false, arguments: null);
@@ -37,9 +34,10 @@ namespace KonsiCred.Application
 
                     BuscarBeneficio(cpfReceived).Wait();
 
+                    _channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
                 };
                 _channel.BasicConsume(queue: "cpf-queue",
-                                     autoAck: true,
+                                     autoAck: false,
                                      consumer: consumer);
 
             }
@@ -53,6 +51,10 @@ namespace KonsiCred.Application
             var clienteService = scope.ServiceProvider.GetService<IClienteService>();
 
             var cliente = await clienteService.BuscarPorCpf(cpf);
+        }
+        private void InitializeRabbitMQConnection(IServiceProvider serviceProvider)
+        {
+            _connection = serviceProvider.GetRequiredService<IConnection>();
         }
 
     }

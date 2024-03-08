@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Services\Konsi\Konsi.Cred.Application\KonsiCred.Application.csproj" />
+    <ProjectReference Include="..\..\..\Services\Konsi\KonsiCred.Application\KonsiCred.Application.csproj" />
     <ProjectReference Include="..\KonsiCred.Web.Client\KonsiCred.Web.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.*-*" />
   </ItemGroup>

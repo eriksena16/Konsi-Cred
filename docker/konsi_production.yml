@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbit-konsicred
+    environment:
+      RABBITMQ_DEFAULT_USER: "konsicred"
+      RABBITMQ_DEFAULT_PASS: "konsicred"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  api-konsi:
+    image: eriksena16/konsicred-web-api:latest
+    container_name: konsiCred-web-api
+    build:
+      context: ../src
+      dockerfile: ./Services/Konsi/KonsiCred.Api/Dockerfile
+    restart: always   
+    ports:
+      - "5005:5005"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5005
+    depends_on:
+      - rabbitmq
