@@ -1,8 +1,5 @@
-﻿using KonsiCred.Application;
-using KonsiCred.Core;
+﻿using KonsiCred.Core;
 using KonsiCred.Facade;
-using Microsoft.AspNetCore.Authorization;
-using Newtonsoft.Json;
 using System.Net;
 
 namespace Patrimony.Api.Controllers
@@ -21,7 +18,7 @@ namespace Patrimony.Api.Controllers
 
         [HttpGet("consulta-beneficios")]
         [ProducesResponseType(typeof(ClienteDTO), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> ObterPorId([FromQuery] long cpf)
+        public async Task<IActionResult> ObterPorId([FromQuery] string cpf)
         {
            var teste = await _clienteKonsi.ObterPorCpf(cpf); return Ok(teste);
         }

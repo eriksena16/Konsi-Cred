@@ -4,6 +4,6 @@ namespace KonsiCred.Facade
 {
     public interface IClienteKonsiFacade
     {
-        Task<Response<Cliente>> ObterPorCpf(long cpf);
+        Task<Response<Cliente>> ObterPorCpf(string cpf);
     }
 }

@@ -7,7 +7,6 @@ builder
     .AddApiConfig()
     .AddCorsConfig()
     .AddSwaggerConfig()
-    //.AddIdentityConfig()
     .AddVersioningConfig();
 
 var app = builder.Build();
@@ -29,4 +28,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+app.UseRabbitMq();
+
+    app.Run();

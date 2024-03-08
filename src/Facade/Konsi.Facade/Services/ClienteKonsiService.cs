@@ -23,7 +23,7 @@ namespace KonsiCred.Facade
             _usuario = usuario;
         }
 
-        public async Task<Response<Cliente>> ObterPorCpf(long cpf)
+        public async Task<Response<Cliente>> ObterPorCpf(string cpf)
         {
             string requestUri = string.Format(_konsiOptions.RequestUriCliente, cpf);
 

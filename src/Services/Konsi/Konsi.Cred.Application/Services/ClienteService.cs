@@ -11,7 +11,7 @@ namespace KonsiCred.Application.Services
             _clienteKonsi = clienteKonsi;
         }
 
-        public async Task<ClienteDTO> BuscarPorCpf(long cpf)
+        public async Task<ClienteDTO> BuscarPorCpf(string cpf)
         {
             try
             {

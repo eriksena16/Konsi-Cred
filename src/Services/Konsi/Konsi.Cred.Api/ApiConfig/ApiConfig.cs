@@ -19,6 +19,7 @@ namespace KonsiCred.Api.ApiConfig
                                 options.SuppressModelStateInvalidFilter = true;
                             });
             builder.Services.RegisterServices();
+            builder.Services.ConfigureRabbitMqServices(builder.Configuration);
 
             builder.Services.AddHttpClient(KonsiExternalOptions.Instance, options =>
             {
