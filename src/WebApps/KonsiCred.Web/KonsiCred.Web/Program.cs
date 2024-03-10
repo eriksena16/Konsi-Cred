@@ -26,7 +26,9 @@ builder.Services.AddScoped<IDadosClienteService, DadosClienteService>();
 builder.Services.AddHttpClient(KonsiCredOptions.Instance, options =>
 {
 });
-builder.Services.Configure<KonsiCredOptions>(config.GetSection(nameof(KonsiCredOptions)));
+
+var options = builder.Environment.EnvironmentName == "Development" ? "KonsiCred-Dev-Options" : nameof(KonsiCredOptions);
+builder.Services.Configure<KonsiCredOptions>(config.GetSection(options));
 
 var app = builder.Build();
 
