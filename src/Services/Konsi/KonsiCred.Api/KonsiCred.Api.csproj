@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>6d790678-3292-4c31-bb46-c809af427f55</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
@@ -24,6 +23,7 @@
     <ProjectReference Include="..\..\..\Core\Konsi.Core\KonsiCred.Core.csproj" />
     <ProjectReference Include="..\..\..\Facade\Konsi.Facade\KonsiCred.Facade.csproj" />
     <ProjectReference Include="..\KonsiCred.Application\KonsiCred.Application.csproj" />
+    <ProjectReference Include="..\KonsiCred.Data\KonsiCred.Data.csproj" />
   </ItemGroup>
 
 </Project>

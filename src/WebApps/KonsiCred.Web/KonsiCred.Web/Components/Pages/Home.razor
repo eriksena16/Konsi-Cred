@@ -1,6 +1,29 @@
 ﻿@page "/"
+@using Konsi.Core
 @using KonsiCred.Application
+@using Newtonsoft.Json
+@inject HttpClient client
+<style>
 
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        padding: 8px;
+        margin-bottom: 7px;
+        background-color: var(--neutral-layer-2);
+        border-radius: 4px;
+    }
+
+    .company-name {
+        order: 2;
+        flex: 2;
+        text-align: center;
+    }
+
+</style>
 <PageTitle>pageTitle</PageTitle>
 
 <FluentGrid Spacing="3" Justify="JustifyContent.Center" Style="margin-top:50px">
@@ -31,17 +54,36 @@
 
 @if (visible)
 {
-    <FluentGrid Spacing="3" Justify="JustifyContent.Center" Style="margin-top:50px; padding: 0 100px;">
-        <FluentCard>
 
-            <FluentStack>
-                <FluentLabel>
-                    Informacoes
-                </FluentLabel>
-            </FluentStack>
 
-        </FluentCard>
-    </FluentGrid>
+    <FluentGridItem xs="12" sm="12" Style="margin: 10px 0; padding: 5px 30px; display: flex; justify-content: center;">
+        <div class="card">
+            <FluentCard Width="340px" Height="auto" Style="display: flex; background-color: var(--neutral-layer-2);">
+
+                <FluentGrid>
+                    <FluentGridItem xs="12" sm="12">
+                        <div class="company-name" style="flex: 2; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                            <p style="margin: 0; font-size: 14px;"><strong>CPF: </strong>@ClienteDTO.Cpf.FormatCPF()</p>
+                            <h5 style="margin: 0;"><strong>Benefícios:</strong></h5>
+                            <div class="card">
+                                <div class="card-body">
+                                    @foreach (var beneficio in @ClienteDTO.Beneficios)
+                                    {
+                                        <p style="margin: 0; font-size: 14px;"><strong>Número: </strong>@beneficio.NumeroBeneficio</p>
+                                        <p style="margin: 0; font-size: 14px;"><strong>Código: </strong>@beneficio.CodigoTipoBeneficio</p>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </FluentGridItem>
+
+                </FluentGrid>
+
+            </FluentCard>
+        </div>
+    </FluentGridItem>
+
 
 }
 
@@ -49,6 +91,7 @@
     private string pageTitle => "Consulta Beneficio";
     [SupplyParameterFromForm]
     public ClienteDTQ Cliente { get; set; } = new ClienteDTQ();
+    public ClienteDTO ClienteDTO { get; set; }
     private bool visible;
 
     protected override async Task OnInitializedAsync()
@@ -58,8 +101,17 @@
     }
     private async Task<bool> ConsultarBeneficio()
     {
-        visible = true;
 
+
+        var response = await _dadosClienteService.GetCliente(Cliente);
+
+        if (response.IsSuccessStatusCode)
+        {
+            string jsonContent = await response.Content.ReadAsStringAsync();
+
+            ClienteDTO = JsonConvert.DeserializeObject<ClienteDTO>(jsonContent);
+        }
+        visible = true;
         return await Task.FromResult(true);
     }
 }

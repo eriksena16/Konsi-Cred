@@ -1,6 +1,8 @@
 ﻿using KonsiCred.Application;
 using KonsiCred.Application.Services;
 using KonsiCred.Core;
+using KonsiCred.Data;
+using KonsiCred.Domain;
 using KonsiCred.Facade;
 
 namespace KonsiCred.Api.IoC
@@ -15,13 +17,13 @@ namespace KonsiCred.Api.IoC
             services.AddScoped<IClienteService, ClienteService>();
             services.AddScoped<INotifier, Notifier>();
             services.AddScoped<IRabbitMQService, RabbitMQService>();
-
-            services.AddHostedService<ConsumerService>();
+            services.AddHostedService<ConsumidorFilaService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            //services.AddScoped<IDepartamentoService, DepartamentoService>();
+            //services.AddDistributedMemoryCache();
 
             #endregion
+
+            services.AddScoped<ICacheRepository, CacheRepository>();
         }
     }
 }

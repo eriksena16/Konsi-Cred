@@ -10,6 +10,7 @@ COPY ["./Services/Konsi/KonsiCred.Api/KonsiCred.Api.csproj", "Services/Konsi/Kon
 COPY ["./Core/Konsi.Core/KonsiCred.Core.csproj", "Core/Konsi.Core/"]
 COPY ["./Facade/Konsi.Facade/KonsiCred.Facade.csproj", "Facade/Konsi.Facade/"]
 COPY ["./Services/Konsi/KonsiCred.Application/KonsiCred.Application.csproj", "Services/Konsi/KonsiCred.Application/"]
+COPY ["./Services/Konsi/KonsiCred.Data/KonsiCred.Data.csproj", "Services/Konsi/KonsiCred.Data/"]
 
 RUN dotnet restore "Services/Konsi/KonsiCred.Api/"
 COPY . .

@@ -11,9 +11,7 @@ namespace KonsiCred.Application
         public RabbitMQService(IModel channel)
         {
             _channel = channel;
-
-            //// Certifique-se de que a fila existe
-            _channel.QueueDeclare(queue: "cpf-queue", durable: false, exclusive: false, autoDelete: false, arguments: null);
+            _channel.QueueDeclare(queue: "cpf-queue", durable: true, exclusive: false, autoDelete: false, arguments: null);
         }
 
         public void EnqueueCpfs()

@@ -1,5 +1,7 @@
-﻿using KonsiCred.Core;
+﻿using KonsiCred.Application;
+using KonsiCred.Core;
 using KonsiCred.Facade;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 
 namespace Patrimony.Api.Controllers
@@ -9,21 +11,22 @@ namespace Patrimony.Api.Controllers
     [ApiController]
     public class ClientesController : ApiControllerBase
     {
-        private readonly IClienteKonsiFacade _clienteKonsi;
+        private readonly IClienteService _clienteService;
 
-        public ClientesController(INotifier notifier, IClienteKonsiFacade clienteKonsi) : base(notifier)
+        public ClientesController(INotifier notifier, IClienteService clienteService) : base(notifier)
         {
-            _clienteKonsi = clienteKonsi;
+            _clienteService = clienteService;
         }
 
         [HttpGet("consulta-beneficios")]
         [ProducesResponseType(typeof(ClienteDTO), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> ObterPorId([FromQuery] string cpf)
+        public async Task<IActionResult> BuscarCliente([FromQuery][Required] string cpf)
         {
-           var teste = await _clienteKonsi.ObterPorCpf(cpf); return Ok(teste);
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+            var cliente = await _clienteService.BuscarCliente(new CpfDTO(cpf));
+
+            return Ok(cliente);
         }
-
-
-        //private async Task<ClienteDTO> ObterClienteDto(long id) => AutoMapperCliente.ParaClienteDTO(await _categoriaRepository.ObterPorIdAsNoTracking(id));
     }
 }

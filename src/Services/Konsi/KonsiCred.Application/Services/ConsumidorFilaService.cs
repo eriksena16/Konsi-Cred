@@ -3,23 +3,22 @@ using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
-using System.Threading.Channels;
 
 namespace KonsiCred.Application
 {
-    public class ConsumerService : BackgroundService
+    public class ConsumidorFilaService : BackgroundService
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IModel _channel;
         private IConnection _connection;
-        public ConsumerService(IServiceProvider serviceProvider)
+        public ConsumidorFilaService(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
 
             InitializeRabbitMQConnection(serviceProvider);
             _channel = _connection.CreateModel();
 
-            _channel.QueueDeclare(queue: "cpf-queue", durable: false, exclusive: false, autoDelete: false, arguments: null);
+            _channel.QueueDeclare(queue: "cpf-queue", durable: true, exclusive: false, autoDelete: false, arguments: null);
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -34,23 +33,23 @@ namespace KonsiCred.Application
 
                     BuscarBeneficio(cpfReceived).Wait();
 
-                    _channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+                    //_channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
                 };
                 _channel.BasicConsume(queue: "cpf-queue",
-                                     autoAck: false,
+                                     autoAck: true,
                                      consumer: consumer);
 
             }
             return Task.CompletedTask;
         }
 
-        private async Task BuscarBeneficio(string cpf)
+        private async Task BuscarBeneficio(string cpfString)
         {
             using var scope = _serviceProvider.CreateScope();
-
+            var cpf = new CpfDTO(cpfString);
             var clienteService = scope.ServiceProvider.GetService<IClienteService>();
 
-            var cliente = await clienteService.BuscarPorCpf(cpf);
+            var cliente = await clienteService.BuscarCliente(cpf);
         }
         private void InitializeRabbitMQConnection(IServiceProvider serviceProvider)
         {

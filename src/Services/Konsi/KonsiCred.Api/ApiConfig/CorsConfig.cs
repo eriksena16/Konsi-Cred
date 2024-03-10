@@ -8,14 +8,14 @@
             {
                 options.AddPolicy("Development", builder =>
                             builder
-                                .WithOrigins("https://localhost:7279")
+                                .WithOrigins("https://localhost:7169")
                                 .AllowAnyMethod()
                                 .AllowAnyHeader());
 
                 options.AddPolicy("Production", builder =>
                             builder
                                 .WithOrigins("https://localhost:7171")
-                                .WithMethods("POST")
+                                .WithMethods("GET")
                                 .AllowAnyHeader());
             });
 
