@@ -21,6 +21,7 @@ namespace KonsiCred.Api.ApiConfig
             builder.Services.RegisterServices();
             builder.Services.ConfigureRabbitMqServices(builder.Configuration);
             builder.Services.ConfigureRedisServices(builder.Configuration);
+            builder.Services.ConfigureElasticServices(builder.Configuration);
 
             builder.Services.AddHttpClient(KonsiExternalOptions.Instance, options =>
             {

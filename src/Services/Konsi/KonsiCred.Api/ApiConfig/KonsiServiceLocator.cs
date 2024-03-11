@@ -17,6 +17,7 @@ namespace KonsiCred.Api.IoC
             services.AddScoped<IClienteService, ClienteService>();
             services.AddScoped<INotifier, Notifier>();
             services.AddScoped<IRabbitMQService, RabbitMQService>();
+            services.AddScoped<IElasticsearchService, ElasticsearchService>();
             services.AddHostedService<ConsumidorFilaService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //services.AddDistributedMemoryCache();

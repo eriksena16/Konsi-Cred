@@ -1,6 +1,7 @@
 ﻿using KonsiCred.Core;
 using KonsiCred.Domain;
 using KonsiCred.Facade;
+using Nest;
 
 namespace KonsiCred.Application.Services
 {
@@ -8,10 +9,12 @@ namespace KonsiCred.Application.Services
     {
         private readonly IClienteKonsiFacade _clienteKonsi;
         private readonly ICacheRepository _cacheRepository;
-        public ClienteService(INotifier notifier, IClienteKonsiFacade clienteKonsi, ICacheRepository cacheRepository) : base(notifier)
+        private readonly ElasticClient _elasticClient;
+        public ClienteService(INotifier notifier, IClienteKonsiFacade clienteKonsi, ICacheRepository cacheRepository, ElasticClient elasticClient) : base(notifier)
         {
             _clienteKonsi = clienteKonsi;
             _cacheRepository = cacheRepository;
+            _elasticClient = elasticClient;
         }
 
         public async Task<ClienteDTO> BuscarClienteKonsi(string cpf)
@@ -23,9 +26,7 @@ namespace KonsiCred.Application.Services
                 if (!response.Success)
                     Notificar(response.Observations);
 
-                var clienteDto = AutoMapperCliente.ParaClienteDTO(response.Data);
-
-                return clienteDto;
+                return response.Data != null ? AutoMapperCliente.ParaClienteDTO(response.Data) : default;
             }
             catch (Exception ex)
             {
@@ -42,7 +43,13 @@ namespace KonsiCred.Application.Services
             if (cliente is null)
             {
                 cliente = await BuscarClienteKonsi(cpf.ToString());
-                await _cacheRepository.InserirValor(cpf.ToString(), cliente);
+                if (cliente is not null)
+                {
+                    await _cacheRepository.InserirValor(cpf.ToString(), cliente);
+
+                   await _elasticClient.IndexDocumentAsync(cliente);
+                }
+                    
             }
 
             return cliente;

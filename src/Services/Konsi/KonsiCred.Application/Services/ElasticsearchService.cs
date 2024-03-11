@@ -1,26 +1,38 @@
-﻿using Nest;
+﻿using KonsiCred.Core;
+using Nest;
 
 namespace KonsiCred.Application.Services
 {
-    public class ElasticsearchService<T> : IElasticsearchService<T> where T : class
+    public class ElasticsearchService(INotifier notifier, ElasticClient elasticClient) : ServiceBase(notifier) , IElasticsearchService
     {
-        private readonly ElasticClient _elasticClient;
-        public ElasticsearchService(ElasticClient elasticClient)
+        private readonly IElasticClient _elasticClient = elasticClient;
+
+        public async Task<bool> CriarDocumentoAsync(ClienteDTO documento)
         {
-            _elasticClient = elasticClient;
-        }
-        public async Task<bool> CriarDocumentoAsync(T documento)
-        {
-           var response = await _elasticClient.IndexDocumentAsync(documento);
+            var response = await _elasticClient.IndexDocumentAsync(documento);
 
             return response.IsValid;
         }
 
-        public async Task<T> ObterDocumentoAsync(string cpf)
+        public async Task<ClienteDTO> ObterDocumentoAsync(string cpf)
         {
-            var response = await _elasticClient.GetAsync( new DocumentPath<T>(cpf));
+            var response = await _elasticClient.SearchAsync<ClienteDTO>(s => s
+                .Query(q => q
+                .Match(m => m
+                .Field(f => f.Cpf)
+                .Query(cpf)
+         )
+     )
+ );
+            var cliente = response?.Hits?.FirstOrDefault()?.Source;
 
-            return response.Source;
+            if ( cliente == null )
+            {
+                Notificar($"Cliente nao encontrado para o CPF: {cpf}");
+            }
+
+            return cliente;
         }
+
     }
 }

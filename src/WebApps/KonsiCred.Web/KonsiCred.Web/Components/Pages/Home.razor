@@ -5,9 +5,9 @@
 @inject HttpClient client
 <style>
 
-    ul {
-        list-style-type: none;
-        padding: 0;
+    .beneficios {
+        margin: 10px;
+        font-size: 12px;
     }
 
     li {
@@ -18,9 +18,11 @@
     }
 
     .company-name {
-        order: 2;
         flex: 2;
-        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
 </style>
@@ -62,18 +64,28 @@
 
                 <FluentGrid>
                     <FluentGridItem xs="12" sm="12">
-                        <div class="company-name" style="flex: 2; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                            <p style="margin: 0; font-size: 14px;"><strong>CPF: </strong>@ClienteDTO.Cpf.FormatCPF()</p>
-                            <h5 style="margin: 0;"><strong>Benefícios:</strong></h5>
-                            <div class="card">
-                                <div class="card-body">
-                                    @foreach (var beneficio in @ClienteDTO.Beneficios)
-                                    {
-                                        <p style="margin: 0; font-size: 14px;"><strong>Número: </strong>@beneficio.NumeroBeneficio</p>
-                                        <p style="margin: 0; font-size: 14px;"><strong>Código: </strong>@beneficio.CodigoTipoBeneficio</p>
-                                    }
+                        <div class="company-name">
+                            @if (ClienteDTO is null)
+                            {
+                                <p style="margin: 0; font-size: 14px;"><strong>CPF: </strong>CPF nao Encontrado</p>
+                            }
+                            else
+                            {
+                                <p style="margin: 0; font-size: 14px;"><strong>CPF: </strong>@ClienteDTO.Cpf.FormatCPF()</p>
+
+                                <div class="card">
+
+                                    <div class="card-body">
+                                        <p style="margin: 0; font-size: 15px;"><strong>Benefícios:</strong></p>
+                                        @foreach (var beneficio in @ClienteDTO.Beneficios)
+                                        {
+                                            <p class="beneficios"><strong>Número: </strong>@beneficio.NumeroBeneficio</p>
+                                            <p class="beneficios"><strong>Código: </strong>@beneficio.CodigoTipoBeneficio</p>
+                                        }
+                                    </div>
                                 </div>
-                            </div>
+                            }
+
 
                         </div>
                     </FluentGridItem>
@@ -93,7 +105,7 @@
     public ClienteDTQ Cliente { get; set; } = new ClienteDTQ();
     public ClienteDTO ClienteDTO { get; set; }
     private bool visible;
-
+    MenssagemHttp menssagem = new MenssagemHttp();
     protected override async Task OnInitializedAsync()
     {
 
@@ -101,15 +113,17 @@
     }
     private async Task<bool> ConsultarBeneficio()
     {
-
-
         var response = await _dadosClienteService.GetCliente(Cliente);
+        string jsonContent = await response.Content.ReadAsStringAsync();
 
-        if (response.IsSuccessStatusCode)
+        if (response.StatusCode == System.Net.HttpStatusCode.OK)
         {
-            string jsonContent = await response.Content.ReadAsStringAsync();
-
-            ClienteDTO = JsonConvert.DeserializeObject<ClienteDTO>(jsonContent);
+            ClienteDTO = JsonConvert.DeserializeObject<Response<ClienteDTO>>(jsonContent).Data;
+        }
+        else
+        {
+            menssagem = JsonConvert.DeserializeObject<MenssagemHttp>(jsonContent);
+            ToastService.ShowError($"{menssagem.Menssagem}");
         }
         visible = true;
         return await Task.FromResult(true);

@@ -1,9 +1,9 @@
 ﻿namespace KonsiCred.Application
 {
-    public interface IElasticsearchService<T>
+    public interface IElasticsearchService
     {
-        Task<bool> CriarDocumentoAsync(T documento);
-        Task<T> ObterDocumentoAsync(string cpf);
+        Task<bool> CriarDocumentoAsync(ClienteDTO documento);
+        Task<ClienteDTO> ObterDocumentoAsync(string cpf);
 
     }
 }
