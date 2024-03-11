@@ -26,7 +26,7 @@
     }
 
 </style>
-<PageTitle>pageTitle</PageTitle>
+<PageTitle>@pageTitle</PageTitle>
 
 <FluentGrid Spacing="3" Justify="JustifyContent.Center" Style="margin-top:50px">
     <FluentGridItem>
@@ -94,7 +94,7 @@
 }
 
 @code {
-    private string pageTitle => "Consulta Beneficio";
+    private string pageTitle => "Consulta de Benefício";
     [SupplyParameterFromForm]
     public ClienteDTQ Cliente { get; set; } = new ClienteDTQ();
     public ClienteDTO ClienteDTO { get; set; }
