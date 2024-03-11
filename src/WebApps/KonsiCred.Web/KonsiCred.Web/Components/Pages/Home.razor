@@ -56,20 +56,14 @@
 
 @if (visible)
 {
-
-
-    <FluentGridItem xs="12" sm="12" Style="margin: 10px 0; padding: 5px 30px; display: flex; justify-content: center;">
+<FluentGridItem xs="12" sm="12" Style="margin: 10px 0; padding: 5px 30px; display: flex; justify-content: center;">
         <div class="card">
             <FluentCard Width="340px" Height="auto" Style="display: flex; background-color: var(--neutral-layer-2);">
 
                 <FluentGrid>
                     <FluentGridItem xs="12" sm="12">
                         <div class="company-name">
-                            @if (ClienteDTO is null)
-                            {
-                                <p style="margin: 0; font-size: 14px;"><strong>CPF: </strong>CPF nao Encontrado</p>
-                            }
-                            else
+                            @if (ClienteDTO is not null)
                             {
                                 <p style="margin: 0; font-size: 14px;"><strong>CPF: </strong>@ClienteDTO.Cpf.FormatCPF()</p>
 
@@ -119,13 +113,15 @@
         if (response.StatusCode == System.Net.HttpStatusCode.OK)
         {
             ClienteDTO = JsonConvert.DeserializeObject<Response<ClienteDTO>>(jsonContent).Data;
+            visible = true;
         }
         else
         {
             menssagem = JsonConvert.DeserializeObject<MenssagemHttp>(jsonContent);
             ToastService.ShowError($"{menssagem.Menssagem}");
+            visible = false;
         }
-        visible = true;
+        
         return await Task.FromResult(true);
     }
 }
