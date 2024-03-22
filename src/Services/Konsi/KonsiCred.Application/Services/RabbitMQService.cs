@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
+﻿using RabbitMQ.Client;
 using System.Text;
 
 namespace KonsiCred.Application

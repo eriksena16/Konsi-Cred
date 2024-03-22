@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace KonsiCred.Web.Model
+﻿namespace KonsiCred.Web.Model
 {
     public class MenssagemHttp
     {

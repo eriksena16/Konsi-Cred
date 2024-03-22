@@ -1,5 +1,4 @@
-﻿using KonsiCred.Core;
-using KonsiCred.Application;
+﻿using KonsiCred.Application;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.Net.Http.Json;

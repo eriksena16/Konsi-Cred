@@ -47,9 +47,9 @@ namespace KonsiCred.Application.Services
                 {
                     await _cacheRepository.InserirValor(cpf.ToString(), cliente);
 
-                   await _elasticClient.IndexDocumentAsync(cliente);
+                    await _elasticClient.IndexDocumentAsync(cliente);
                 }
-                    
+
             }
 
             return cliente;

@@ -2,8 +2,8 @@
 {
     public static class KonsiErrorMessages
     {
-        #region Departamento
-        public static string ERROR_SECTOR_EXISTS = "Já existe um Departamento com este nome informado.";
+        #region Cliente
+        public static string ERROR_CLIENTE_NOT_FOUND = "Cliente nao encontrado para o CPF: ";
         #endregion
     }
 }

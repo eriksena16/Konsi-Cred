@@ -7,7 +7,6 @@ namespace KonsiCred.Core
     public class ApiControllerBase : ControllerBase
     {
         private readonly INotifier _notifier;
-        public readonly IUsuario _appUser;
         protected bool AuthenticatedUser { get; set; }
         public ApiControllerBase(INotifier notifier)
         {

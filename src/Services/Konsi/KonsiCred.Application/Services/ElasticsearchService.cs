@@ -1,9 +1,10 @@
-﻿using KonsiCred.Core;
+﻿using Konsi.Core;
+using KonsiCred.Core;
 using Nest;
 
 namespace KonsiCred.Application.Services
 {
-    public class ElasticsearchService(INotifier notifier, ElasticClient elasticClient) : ServiceBase(notifier) , IElasticsearchService
+    public class ElasticsearchService(INotifier notifier, ElasticClient elasticClient) : ServiceBase(notifier), IElasticsearchService
     {
         private readonly IElasticClient _elasticClient = elasticClient;
 
@@ -21,14 +22,12 @@ namespace KonsiCred.Application.Services
                 .Match(m => m
                 .Field(f => f.Cpf)
                 .Query(cpf)
-         )
-     )
- );
+         )));
             var cliente = response?.Hits?.FirstOrDefault()?.Source;
 
-            if ( cliente == null )
+            if (cliente == null)
             {
-                Notificar($"Cliente nao encontrado para o CPF: {cpf}");
+                Notificar($"{KonsiErrorMessages.ERROR_CLIENTE_NOT_FOUND}{cpf}");
             }
 
             return cliente;
